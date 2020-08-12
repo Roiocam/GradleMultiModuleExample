@@ -1,0 +1,5 @@
+description '注册中心'
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+}

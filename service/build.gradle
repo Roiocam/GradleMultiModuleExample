@@ -1,0 +1,6 @@
+description '微服务父工程'
+subprojects {
+    dependencies {
+        api project(':common-db')
+    }
+}

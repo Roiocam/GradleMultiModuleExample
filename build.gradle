@@ -1,0 +1,43 @@
+//使用Spring依赖管理
+plugins {
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+}
+//所有项目配置
+allprojects {
+    group = 'com.roiocam'
+    version = '1.0.0-SNAPSHOT'
+}
+//所有子项目的通用配置
+subprojects {
+    //所有子项目都引入以下插件
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
+    //所有子项目的公共属性
+    ext {
+        springBootVersion = '2.3.2.RELEASE'
+        springCloudVersion = 'Hoxton.SR1'
+        guavaVersion = '29.0-jre'
+    }
+    //所有子项目都使用的远程仓库，这里使用阿里云
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+    //所有子项目都使用的依赖，这里增加了google的guava
+    dependencies {
+        testCompile("org.springframework.boot:spring-boot-starter-test")
+        implementation("com.google.guava:guava:$guavaVersion")
+    }
+    //所有子项目使用Spring boot的依赖管理插件
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+        }
+    }
+    //java编译版本
+    compileJava {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}

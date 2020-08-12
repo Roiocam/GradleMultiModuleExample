@@ -1,0 +1,10 @@
+//父工程
+rootProject.name = 'app-parent'
+//子模块
+include 'eureka'
+include 'common'
+include 'common-db'
+include 'service'
+//声明子模块，并表示为service的子模块
+include 'service:order-service'
+include 'service:product-service'

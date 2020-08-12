@@ -1,0 +1,6 @@
+description '通用数据库依赖管理'
+dependencies {
+    api project(':common')
+    api ("mysql:mysql-connector-java")
+    api ("org.springframework.boot:spring-boot-starter-data-jpa")
+}
