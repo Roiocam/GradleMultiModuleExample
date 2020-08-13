@@ -9,33 +9,33 @@ allprojects {
 }
 //所有子项目的通用配置
 subprojects {
-    //所有子项目都引入以下插件
+    //首先我们声明每个子模块都是java项目，并且引入Spring的依赖管理插件。
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'java-library'
-    //所有子项目的公共属性
+    //因为我们拥有很多子项目，一旦升级项目的依赖包版本，去修改每个项目的配置文件是一件很痛苦的时，故我们为声明了全局变量，作用域是每个子项目，统一管理版本号，其使用方法是 $属性名
     ext {
         springBootVersion = '2.3.2.RELEASE'
         springCloudVersion = 'Hoxton.SR1'
         guavaVersion = '29.0-jre'
     }
-    //所有子项目都使用的远程仓库，这里使用阿里云
+    //我们这里为所有子模块都配置统一的远程仓库，如果我们需要为单一模块添加特殊项目，只需要在那个模块的build.gradle添加repositories{}方法，并声明远程仓库即可。
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }
-    //所有子项目都使用的依赖，这里增加了google的guava
+    //所有子模块的统一依赖，这里统一使用了增加了google的guava和spring boot的测试包。
     dependencies {
         testCompile("org.springframework.boot:spring-boot-starter-test")
         implementation("com.google.guava:guava:$guavaVersion")
     }
-    //所有子项目使用Spring boot的依赖管理插件
+    //由于gradle本身不带有依赖管理功能，我们在这里使用了spring的依赖管理插件的dependencyManagement{}方法，并为每个项目引入了spring boot和spring cloud,
     dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
         }
     }
-    //java编译版本
+    //所有子模块的java编译版本
     compileJava {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
